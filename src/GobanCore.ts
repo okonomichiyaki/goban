@@ -280,6 +280,8 @@ export interface GobanHooks {
     discBlackTextColor?: () => string;
     discWhiteStoneColor?: () => string;
     discWhiteTextColor?: () => string;
+    discBlackStoneUrl?: () => string;
+    discWhiteStoneUrl?: () => string;
     plainBoardColor?: () => string;
     plainBoardLineColor?: () => string;
     plainBoardUrl?: () => string;

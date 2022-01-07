@@ -23,6 +23,12 @@ export default function(GoThemes:GoThemesInterface) {
     class Stone extends GoTheme {
         sort():number { return  0; }
 
+        placeStoneImage(ctx:CanvasRenderingContext2D, cx:number, cy:number, radius:number, imageUrl:string):void {
+            var image = document.createElement('img');
+            image.setAttribute('src', imageUrl);
+            ctx.drawImage(image, cx - radius, cy - radius, radius * 2, radius * 2);
+        }
+
         placePlainStone(ctx:CanvasRenderingContext2D, cx:number, cy:number, radius:number, color:string):void {
             let lineWidth = radius * 0.10;
             if (lineWidth < 0.3) {
@@ -50,7 +56,11 @@ export default function(GoThemes:GoThemesInterface) {
         }
 
         placeBlackStone(ctx:CanvasRenderingContext2D, shadow_ctx:CanvasRenderingContext2D, stone:any, cx:number, cy:number, radius:number):void {
-            this.placePlainStone(ctx, cx, cy, radius, this.getBlackStoneColor());
+            if (GobanCore.hooks.discBlackStoneUrl && GobanCore.hooks.discBlackStoneUrl() !== "") {
+                this.placeStoneImage(ctx, cx, cy, radius, GobanCore.hooks.discBlackStoneUrl());
+            } else {
+                this.placePlainStone(ctx, cx, cy, radius, this.getBlackStoneColor());
+            }
         }
 
         public getBlackStoneColor():string {
@@ -70,7 +80,11 @@ export default function(GoThemes:GoThemesInterface) {
         }
 
         placeWhiteStone(ctx:CanvasRenderingContext2D, shadow_ctx:CanvasRenderingContext2D, stone:any, cx:number, cy:number, radius:number):void {
-            this.placePlainStone(ctx, cx, cy, radius, this.getWhiteStoneColor());
+            if (GobanCore.hooks.discWhiteStoneUrl && GobanCore.hooks.discWhiteStoneUrl() !== "") {
+                this.placeStoneImage(ctx, cx, cy, radius, GobanCore.hooks.discWhiteStoneUrl());
+            } else {
+                this.placePlainStone(ctx, cx, cy, radius, this.getWhiteStoneColor());
+            }
         }
 
         public getWhiteStoneColor():string{
